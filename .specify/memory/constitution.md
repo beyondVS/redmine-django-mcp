@@ -1,11 +1,9 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 -> 1.1.0
+- Version change: 1.1.0 -> 1.1.1
 - List of modified principles:
-  - 핵심 원칙 통합 (AGENTS.md의 철학 반영)
-  - 할루시네이션 방지 지침 추가
-  - 기술 환경(Technical Context) 상세화
-- Added sections: 핵심 철학, 할루시네이션 방지 지침, 기술 환경
+  - 기술 환경(Technical Context) 수정: 프레임워크 확정 전임을 명시
+- Added sections: N/A
 - Removed sections: N/A
 - Templates requiring updates (✅ updated):
   - .specify/templates/plan-template.md ✅
@@ -40,7 +38,7 @@ Sync Impact Report
 | :--- |:---------------------------| :--- |
 | **Type** | MCP Server (Django Bridge) | Redmine-Django 연동을 위한 MCP 서버 |
 | **Language** | Python 3.11+               | pyproject.toml 기준 |
-| **Framework** | FastMCP 3.x                | MCP SDK integration |
+| **Framework** | TBD (Candidate: FastMCP)   | MCP SDK 선정 중 (FastMCP 검토 중) |
 | **Database** | SQLite/PostgreSQL          | Redmine 연동 데이터베이스 |
 | **Linter** | Ruff                       | 코드 품질 관리 |
 
@@ -79,4 +77,4 @@ MCP 도구의 `description` 필드는 LLM이 해당 도구의 용도와 사용�
 ## 거버넌스(Governance)
 본 헌법은 프로젝트의 모든 개발 관행보다 우선합니다. 헌법의 개정은 명확한 사유와 함께 문서화되어야 하며, 버전 관리 정책을 따릅니다.
 
-**버전**: 1.1.0 | **비준일**: 2026-02-11 | **최종 수정일**: 2026-02-11
+**버전**: 1.1.1 | **비준일**: 2026-02-11 | **최종 수정일**: 2026-02-11
