@@ -1,0 +1,98 @@
+description = "디자인 산출물을 생성하기 위해 계획 템플릿을 사용하여 구현 계획 워크플로우를 실행합니다."
+
+prompt = """
+---
+description: 디자인 산출물을 생성하기 위해 계획 템플릿을 사용하여 구현 계획 워크플로우를 실행합니다.
+handoffs: 
+  - label: 작업 생성
+    agent: speckit.tasks
+    prompt: 계획을 작업 단위로 나눕니다.
+    send: true
+  - label: 체크리스트 생성
+    agent: speckit.checklist
+    prompt: 다음 도메인에 대한 체크리스트를 생성합니다...
+---
+
+## 사용자 입력
+
+```text
+$ARGUMENTS
+```
+
+진행하기 전에 사용자 입력이 비어 있지 않다면 이를 **반드시** 고려해야 합니다.
+
+## 개요
+
+1. **설정**: 저장소 루트에서 다음 스크립트를 실행하고 FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH에 대한 JSON을 구문 분석합니다.
+   - **Windows**: `.specify/scripts/powershell/setup-plan.ps1 --json`
+   - **그 외**: `.specify/scripts/bash/setup-plan.sh --json`
+   - "I'm Groot"와 같이 인자에 작은따옴표가 포함된 경우 이스케이프 구문을 사용하십시오: 예: 'I'\\''m Groot' (또는 가능하면 큰따옴표: "I'm Groot").
+
+2. **컨텍스트 로드**: FEATURE_SPEC 및 `.specify/memory/constitution.md`를 읽습니다. (이미 복사된) IMPL_PLAN 템플릿을 로드합니다.
+
+3. **계획 워크플로우 실행**: IMPL_PLAN 템플릿의 구조를 따라 다음을 수행합니다:
+   - 기술적 컨텍스트(Technical Context) 작성 (알 수 없는 항목은 "NEEDS CLARIFICATION"으로 표시)
+   - 헌법을 바탕으로 헌법 준수 확인(Constitution Check) 섹션 작성
+   - 게이트 평가 (정당화되지 않은 위반 사항이 있으면 에러 처리)
+   - Phase 0: research.md 생성 (모든 NEEDS CLARIFICATION 해결)
+   - Phase 1: data-model.md, contracts/, quickstart.md 생성
+   - Phase 1: 에이전트 스크립트를 실행하여 에이전트 컨텍스트 업데이트
+   - 설계 후 헌법 준수 확인(Constitution Check) 재평가
+
+4. **중단 및 보고**: 명령은 Phase 2 계획 수립 후 종료됩니다. 브랜치, IMPL_PLAN 경로 및 생성된 산출물을 보고합니다.
+
+## 단계(Phases)
+
+### Phase 0: 개요 및 조사 (Outline & Research)
+
+1. 위의 **기술적 컨텍스트(Technical Context)에서 알 수 없는 항목**을 추출합니다:
+   - 각 NEEDS CLARIFICATION → 조사 작업
+   - 각 의존성 → 모범 사례 작업
+   - 각 통합 → 패턴 작업
+
+2. **조사 에이전트 생성 및 발송**:
+
+   ```text
+   기술적 컨텍스트의 각 알 수 없는 항목에 대해:
+     작업: "{feature context}에 대한 {unknown} 조사"
+   각 기술 선택에 대해:
+     작업: "{domain}에서 {tech}에 대한 모범 사례 찾기"
+   ```
+
+3. **조사 결과 통합**: 다음 형식을 사용하여 `research.md`에 통합합니다:
+   - 결정(Decision): [선택된 내용]
+   - 근거(Rationale): [선택된 이유]
+   - 고려된 대안(Alternatives considered): [함께 평가된 다른 대안]
+
+**출력**: 모든 NEEDS CLARIFICATION이 해결된 research.md
+
+### Phase 1: 설계 및 계약 (Design & Contracts)
+
+**선행 조건:** `research.md` 완료
+
+1. **기능 사양에서 엔티티 추출** → `data-model.md`:
+   - 엔티티 이름, 필드, 관계
+   - 요구 사항에 따른 유효성 검사 규칙
+   - 해당하는 경우 상태 전환
+
+2. **기능 요구 사항으로부터 API 계약 생성**:
+   - 각 사용자 액션 → 엔드포인트
+   - 표준 REST/GraphQL 패턴 사용
+   - OpenAPI/GraphQL 스키마를 `/contracts/`로 출력
+
+3. **에이전트 컨텍스트 업데이트**:
+   - 다음 스크립트를 실행합니다:
+     - **Windows**: `.specify/scripts/powershell/update-agent-context.ps1 gemini`
+     - **그 외**: `.specify/scripts/bash/update-agent-context.sh gemini`
+   - 이 스크립트들은 사용 중인 AI 에이전트를 감지합니다.
+   - 에이전트별 컨텍스트 파일을 업데이트합니다.
+   - 현재 계획의 새로운 기술만 추가합니다.
+   - 마커 사이의 수동 추가 내용을 보존합니다.
+
+**출력**: data-model.md, /contracts/*, quickstart.md, 에이전트 전용 파일
+
+## 주요 규칙
+
+- 절대 경로를 사용하십시오.
+- 게이트 실패 또는 해결되지 않은 명확화 사항에 대해 에러(ERROR)를 발생시키십시오.
+"""
