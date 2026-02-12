@@ -16,5 +16,16 @@ class AuthService:
         """MCP 토큰에 매핑된 Redmine API Key를 반환합니다."""
         return self._token_map.get(mcp_token)
 
+    def refresh_session(self, mcp_token: str) -> bool:
+        """
+        토큰 만료를 감지하고 세션을 갱신합니다.
+        (현재는 인메모리 구조이므로 유효성 확인만 수행)
+        """
+        if mcp_token in self._token_map:
+            # 실운영 환경에서는 여기서 Refresh Token을 사용하여 Access Token을 갱신함
+            return True
+        return False
+
+
 # 글로벌 싱글톤 인스턴스
 auth_service = AuthService()

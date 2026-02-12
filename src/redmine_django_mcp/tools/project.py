@@ -1,6 +1,6 @@
 from typing import Optional
-from src.redmine_django_mcp.server import mcp
-from src.redmine_django_mcp.services.redmine_api import RedmineApiClient
+from redmine_django_mcp.server import mcp
+from redmine_django_mcp.services.redmine_api import RedmineApiClient
 
 async def list_projects_impl(
     mcp_token: str,
@@ -70,6 +70,54 @@ async def get_project_details_impl(
         return "\n".join(details)
     except Exception as e:
         return "프로젝트 상세 조회 실패: {}".format(str(e))
+
+async def list_project_members_impl(
+    mcp_token: str,
+    identifier: str,
+    offset: int = 0,
+    limit: int = 100
+) -> str:
+    """프로젝트 멤버 조회의 실제 구현 로직"""
+    try:
+        client = RedmineApiClient(mcp_token)
+        result = await client.get_memberships(identifier, offset=offset, limit=limit)
+        
+        memberships = result.get("memberships", [])
+        total = result.get("total_count", 0)
+        
+        if not memberships:
+            return "프로젝트에 등록된 멤버가 없습니다."
+            
+        header = "프로젝트 멤버 목록 (총 {}명):\n".format(total)
+        summary = [header]
+        for m in memberships:
+            user = m.get("user", {})
+            roles = m.get("roles", [])
+            role_names = [r.get("name") for r in roles]
+            
+            line = "- {} (ID: {}, 역할: {})".format(
+                user.get("name"), user.get("id"), ", ".join(role_names)
+            )
+            summary.append(line)
+            
+        if total > offset + limit:
+            summary.append("\n* 추가 멤버가 존재합니다. (offset={}으로 다시 조회 가능)".format(offset + limit))
+            
+        return "\n".join(summary)
+    except Exception as e:
+        return "멤버 목록 조회 실패: {}".format(str(e))
+
+@mcp.tool()
+async def list_project_members(
+    mcp_token: str,
+    identifier: str,
+    offset: int = 0,
+    limit: int = 100
+) -> str:
+    """
+    특정 프로젝트에 참여 중인 멤버와 그들의 역할 목록을 조회합니다.
+    """
+    return await list_project_members_impl(mcp_token, identifier, offset, limit)
 
 @mcp.tool()
 async def get_project_details(

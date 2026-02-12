@@ -1,6 +1,6 @@
 import httpx
 from typing import Dict, Any, Optional
-from src.redmine_django_mcp.services.auth import auth_service
+from redmine_django_mcp.services.auth import auth_service
 
 class RedmineApiClient:
     BASE_URL = "http://localhost:8000"
@@ -43,5 +43,20 @@ class RedmineApiClient:
 
     async def get_project(self, identifier: str) -> Dict[str, Any]:
         return await self.get("/projects/{}.json".format(identifier), params={"include": "parent,subprojects"})
+
+    async def get_memberships(self, identifier: str, offset: int = 0, limit: int = 100) -> Dict[str, Any]:
+        params = {
+            "offset": offset,
+            "limit": limit
+        }
+        return await self.get("/projects/{}/memberships.json".format(identifier), params=params)
+
+    async def create_project(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        return await self.post("/projects.json", data={"project": data})
+
+    async def update_project(self, identifier: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        return await self.put("/projects/{}.json".format(identifier), data={"project": data})
+
+
 
 

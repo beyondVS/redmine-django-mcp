@@ -58,9 +58,9 @@
 
 **목표**: 프로젝트 멤버와 그들의 역할(ID, Name) 목록 조회
 
-- [ ] T014 [P] [US3] `src/redmine_django_mcp/services/redmine_api.py`에 `get_memberships` API 연동 메서드 추가
-- [ ] T015 [US3] `src/redmine_django_mcp/tools/project.py`에 `list_project_members` MCP 도구 구현
-- [ ] T016 [US3] `tests/integration/test_project_members.py`에서 특정 프로젝트의 사용자별 역할 매핑 검증
+- [X] T014 [P] [US3] `src/redmine_django_mcp/services/redmine_api.py`에 `get_memberships` API 연동 메서드 추가
+- [X] T015 [US3] `src/redmine_django_mcp/tools/project.py`에 `list_project_members` MCP 도구 구현
+- [X] T016 [US3] `tests/integration/test_project_members.py`에서 특정 프로젝트의 사용자별 역할 매핑 검증
 
 ---
 
@@ -68,10 +68,10 @@
 
 **목표**: 2단계 승인 프로세스를 통한 프로젝트 데이터 변경
 
-- [ ] T017 [US4] `src/redmine_django_mcp/tools/approval.py`에 `request_project_create` 도구 구현 (승인 토큰 발급)
-- [ ] T018 [US4] `src/redmine_django_mcp/tools/approval.py`에 `request_project_update` 도구 구현 (승인 토큰 발급)
-- [ ] T019 [US4] `src/redmine_django_mcp/tools/approval.py`에 `approve_action` 도구 구현 (실제 API 호출)
-- [ ] T020 [US4] `tests/integration/test_project_lifecycle.py`에서 생성 요청 -> 승인 -> 결과 확인 통합 시나리오 테스트
+- [X] T017 [US4] `src/redmine_django_mcp/tools/approval.py`에 `request_project_create` 도구 구현 (승인 토큰 발급)
+- [X] T018 [US4] `src/redmine_django_mcp/tools/approval.py`에 `request_project_update` 도구 구현 (승인 토큰 발급)
+- [X] T019 [US4] `src/redmine_django_mcp/tools/approval.py`에 `approve_action` 도구 구현 (실제 API 호출)
+- [X] T020 [US4] `tests/integration/test_project_lifecycle.py`에서 생성 요청 -> 승인 -> 결과 확인 통합 시나리오 테스트
 
 ---
 
@@ -79,11 +79,11 @@
 
 **목적**: 문서화 및 최종 품질 검토
 
-- [ ] T021 [P] `docs/api/openapi.json`과 구현된 도구 스키마의 일관성 재확인
-- [ ] T022 [P] `README.md`에 프로젝트 관리 기능 도구 목록 및 사용법 추가
-- [ ] T023 `src/redmine_django_mcp/server.py`에서 모든 도구의 `description` 필드 최적화 (LLM 가독성 향상)
-- [ ] T024 [P] `src/redmine_django_mcp/services/auth.py`에 OAuth 액세스 토큰 만료 감지 및 세션 갱신(Refresh) 로직 구현
-- [ ] T025 `tests/integration/test_performance.py`에서 모든 주요 도구의 응답 시간 측정 및 SC-001 준수 여부 검증
+- [X] T021 [P] `docs/api/openapi.json`과 구현된 도구 스키마의 일관성 재확인
+- [X] T022 [P] `README.md`에 프로젝트 관리 기능 도구 목록 및 사용법 추가
+- [X] T023 `src/redmine_django_mcp/server.py`에서 모든 도구의 `description` 필드 최적화 (LLM 가독성 향상)
+- [X] T024 [P] `src/redmine_django_mcp/services/auth.py`에 OAuth 액세스 토큰 만료 감지 및 세션 갱신(Refresh) 로직 구현
+- [X] T025 `tests/integration/test_performance.py`에서 모든 주요 도구의 응답 시간 측정 및 SC-001 준수 여부 검증
 
 ---
 

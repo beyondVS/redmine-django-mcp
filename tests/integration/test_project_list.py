@@ -1,6 +1,6 @@
 import pytest
-from src.redmine_django_mcp.services.auth import auth_service
-from src.redmine_django_mcp.tools.project import list_projects_impl
+from redmine_django_mcp.services.auth import auth_service
+from redmine_django_mcp.tools.project import list_projects_impl
 
 @pytest.mark.asyncio
 async def test_list_projects_integration():
