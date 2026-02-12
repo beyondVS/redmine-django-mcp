@@ -1,5 +1,5 @@
 from typing import Optional
-from redmine_django_mcp.server import mcp
+from redmine_django_mcp.app import mcp
 from redmine_django_mcp.services.approval import approval_service
 from redmine_django_mcp.services.redmine_api import RedmineApiClient
 
