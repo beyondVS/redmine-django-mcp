@@ -16,10 +16,10 @@
 
 **목적**: 프로젝트 초기화 및 기본 구조
 
-- [ ] T000 최신 API 스펙 동기화 (`http://localhost:8000/api/schema/` -> `docs/api/openapi.json`)
-- [ ] T001 [P] `src/redmine_django_mcp/` 하위에 `tools/`, `services/`, `models/` 디렉토리 생성
-- [ ] T002 [P] `pyproject.toml`에 `fastmcp`, `httpx`, `pydantic` 의존성 추가 및 설치
-- [ ] T003 [P] `src/redmine_django_mcp/server.py`에 서버 시작 시 API 스펙 자동 동기화 로직이 포함된 진입점 구현
+- [X] T000 최신 API 스펙 동기화 (`http://localhost:8000/api/schema/` -> `docs/api/openapi.json`)
+- [X] T001 [P] `src/redmine_django_mcp/` 하위에 `tools/`, `services/`, `models/` 디렉토리 생성
+- [X] T002 [P] `pyproject.toml`에 `fastmcp`, `httpx`, `pydantic` 의존성 추가 및 설치
+- [X] T003 [P] `src/redmine_django_mcp/server.py`에 서버 시작 시 API 스펙 자동 동기화 로직이 포함된 진입점 구현
 
 ---
 
@@ -27,10 +27,10 @@
 
 **목적**: 사용자 스토리를 구현하기 전에 반드시 완료되어야 하는 핵심 인프라
 
-- [ ] T004 `src/redmine_django_mcp/models/schemas.py`에 Project, Member, Role 기본 Pydantic 모델 정의
-- [ ] T005 `src/redmine_django_mcp/services/auth.py`에 OAuth 토큰 브릿지 및 매핑 로직 구현
-- [ ] T006 `src/redmine_django_mcp/services/redmine_api.py`에 `httpx` 기반 공통 Redmine API 클라이언트 구현
-- [ ] T007 [P] `src/redmine_django_mcp/services/approval.py`에 만료 시간(TTL) 기반 승인 토큰 관리 로직 구현
+- [X] T004 `src/redmine_django_mcp/models/schemas.py`에 Project, Member, Role 기본 Pydantic 모델 정의
+- [X] T005 `src/redmine_django_mcp/services/auth.py`에 OAuth 토큰 브릿지 및 매핑 로직 구현
+- [X] T006 `src/redmine_django_mcp/services/redmine_api.py`에 `httpx` 기반 공통 Redmine API 클라이언트 구현
+- [X] T007 [P] `src/redmine_django_mcp/services/approval.py`에 만료 시간(TTL) 기반 승인 토큰 관리 로직 구현
 
 ---
 
@@ -38,9 +38,9 @@
 
 **목표**: 상태 필터링 및 페이지네이션을 지원하는 프로젝트 목록 조회 기능
 
-- [ ] T008 [P] [US1] `src/redmine_django_mcp/services/redmine_api.py`에 `list_projects` API 연동 메서드 추가
-- [ ] T009 [US1] `src/redmine_django_mcp/tools/project.py`에 `list_projects` MCP 도구 구현
-- [ ] T010 [US1] `tests/integration/test_project_list.py`에서 상태(Active/Closed) 필터링 및 증분 조회 테스트
+- [X] T008 [P] [US1] `src/redmine_django_mcp/services/redmine_api.py`에 `list_projects` API 연동 메서드 추가
+- [X] T009 [US1] `src/redmine_django_mcp/tools/project.py`에 `list_projects` MCP 도구 구현
+- [X] T010 [US1] `tests/integration/test_project_list.py`에서 상태(Active/Closed) 필터링 및 증분 조회 테스트
 
 ---
 
@@ -48,9 +48,9 @@
 
 **목표**: 프로젝트 상세 정보 및 상/하위 계층 구조 조회 기능
 
-- [ ] T011 [P] [US2] `src/redmine_django_mcp/services/redmine_api.py`에 `get_project` 상세 조회 API 연동 메서드 추가
-- [ ] T012 [US2] `src/redmine_django_mcp/tools/project.py`에 `get_project_details` MCP 도구 구현
-- [ ] T013 [US2] `tests/integration/test_project_detail.py`에서 식별자를 통한 상세 정보 및 계층 구조 데이터 검증
+- [X] T011 [P] [US2] `src/redmine_django_mcp/services/redmine_api.py`에 `get_project` 상세 조회 API 연동 메서드 추가
+- [X] T012 [US2] `src/redmine_django_mcp/tools/project.py`에 `get_project_details` MCP 도구 구현
+- [X] T013 [US2] `tests/integration/test_project_detail.py`에서 식별자를 통한 상세 정보 및 계층 구조 데이터 검증
 
 ---
 
