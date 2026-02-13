@@ -1,13 +1,12 @@
 <!--
 Sync Impact Report
-- Version change: 1.1.0 -> 1.1.1
+- Version change: 1.1.1 -> 1.2.0
 - List of modified principles:
-  - 기술 환경(Technical Context) 수정: 프레임워크 확정 전임을 명시
+  - 핵심 원칙(Core Principles) 추가: "6. API 스펙 관리 및 동기화" 추가
 - Added sections: N/A
 - Removed sections: N/A
 - Templates requiring updates (✅ updated):
   - .specify/templates/plan-template.md ✅
-  - .specify/templates/spec-template.md ✅
   - .specify/templates/tasks-template.md ✅
 - Follow-up TODOs: N/A
 -->
@@ -59,6 +58,13 @@ Redmine API 키, 사용자 세션 등의 민감 정보는 절대로 로그에 �
 ### 5. 명확한 LLM 문서화
 MCP 도구의 `description` 필드는 LLM이 해당 도구의 용도와 사용법을 명확히 이해할 수 있도록 구체적이고 서술적으로 작성되어야 합니다.
 
+### 6. API 스펙 관리 및 동기화
+Redmine-Django API 스펙이 필요한 모든 작업시 다음 규칙을 엄격히 준수합니다:
+*   **최우선 소스**: 반드시 `http://localhost:8000/api/schema/`에 접속하여 최신 OpenAPI 명세를 가져옵니다.
+*   **동기화**: 읽어온 최신 스펙은 반드시 `docs/api/openapi.json` 경로에 저장해야 합니다. (디렉토리 자동 생성 포함)
+*   **폴백(Fallback)**: 서버 접속 불가 시 로컬 `docs/api/openapi.json` 파일을 차선책으로 참조합니다.
+*   **엄격한 중단 조건**: 온라인과 로컬 소스를 모두 참조할 수 없는 경우, 잘못된 가정으로 작업을 진행하지 말고 즉시 모든 프로세스를 중단(Abort)한 뒤 사용자에게 보고합니다.
+
 ## IV. 할루시네이션 방지 지침 (Hallucination Prevention Policy)
 
 1.  **지식의 한계 인정**: 확실하지 않은 정보는 지어내지 않으며, 불확실할 경우 정직하게 인정합니다.
@@ -77,4 +83,4 @@ MCP 도구의 `description` 필드는 LLM이 해당 도구의 용도와 사용�
 ## 거버넌스(Governance)
 본 헌법은 프로젝트의 모든 개발 관행보다 우선합니다. 헌법의 개정은 명확한 사유와 함께 문서화되어야 하며, 버전 관리 정책을 따릅니다.
 
-**버전**: 1.1.1 | **비준일**: 2026-02-11 | **최종 수정일**: 2026-02-11
+**버전**: 1.2.0 | **비준일**: 2026-02-11 | **최종 수정일**: 2026-02-12

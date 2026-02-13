@@ -1,0 +1,88 @@
+mcp_tools:
+  - name: list_projects
+    description: "Redmine의 프로젝트 목록을 조회합니다. 상태 필터 및 페이지네이션을 지원합니다."
+    parameters:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [active, closed, all]
+          description: "조회할 프로젝트의 상태 (기본값: active)"
+        offset:
+          type: integer
+          description: "페이지네이션 시작점"
+        limit:
+          type: integer
+          description: "조회할 최대 개수 (기본값: 25)"
+      required: []
+
+  - name: get_project_details
+    description: "특정 프로젝트의 상세 정보를 조회합니다. 식별자(Slug)를 사용합니다."
+    parameters:
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: "프로젝트 식별자 (예: 'my-project')"
+      required: [identifier]
+
+  - name: list_project_members
+    description: "특정 프로젝트에 참여 중인 멤버와 그들의 역할 목록을 조회합니다."
+    parameters:
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: "프로젝트 식별자"
+      required: [identifier]
+
+  - name: request_project_create
+    description: "새로운 프로젝트 생성을 요청합니다. 성공 시 승인 토큰을 반환하며, 실제 생성은 approve_action 도구를 통해 수행됩니다."
+    parameters:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "프로젝트 이름"
+        identifier:
+          type: string
+          description: "프로젝트 식별자"
+        description:
+          type: string
+        homepage:
+          type: string
+        parent_id:
+          type: integer
+        is_public:
+          type: boolean
+      required: [name, identifier]
+
+  - name: request_project_update
+    description: "기존 프로젝트 정보 수정을 요청합니다. 성공 시 승인 토큰을 반환합니다."
+    parameters:
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: "수정할 프로젝트 식별자"
+        name:
+          type: string
+        description:
+          type: string
+        homepage:
+          type: string
+        parent_id:
+          type: integer
+        is_public:
+          type: boolean
+      required: [identifier]
+
+  - name: approve_action
+    description: "request_... 도구로부터 받은 승인 토큰을 사용하여 요청된 변경 사항을 실제 Redmine에 반영합니다."
+    parameters:
+      type: object
+      properties:
+        approval_token:
+          type: string
+          description: "발급받은 승인 토큰"
+      required: [approval_token]

@@ -1,0 +1,4591 @@
+openapi: 3.0.3
+info:
+  title: Redmine API
+  version: 1.0.0
+  description: Redmine API Re-implementation
+paths:
+  /attachments/:
+    get:
+      operationId: attachments_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - attachments
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAttachmentList'
+          description: ''
+    post:
+      operationId: attachments_create
+      tags:
+      - attachments
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Attachment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Attachment'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+          description: ''
+  /attachments/{id}/:
+    get:
+      operationId: attachments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: attachment을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - attachments
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+          description: ''
+    put:
+      operationId: attachments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: attachment을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - attachments
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Attachment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Attachment'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+          description: ''
+    patch:
+      operationId: attachments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: attachment을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - attachments
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAttachment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAttachment'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+          description: ''
+    delete:
+      operationId: attachments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: attachment을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - attachments
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /audit_logs/:
+    get:
+      operationId: audit_logs_list
+      parameters:
+      - in: query
+        name: action
+        schema:
+          type: string
+      - in: query
+        name: created_on
+        schema:
+          type: string
+          format: date-time
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      - in: query
+        name: user
+        schema:
+          type: integer
+      tags:
+      - audit_logs
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAuditLogList'
+          description: ''
+  /audit_logs/{id}/:
+    get:
+      operationId: audit_logs_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: audit log을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - audit_logs
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLog'
+          description: ''
+  /auth/:
+    get:
+      operationId: auth_retrieve
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/login/:
+    post:
+      operationId: auth_login_create
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/logout/:
+    post:
+      operationId: auth_logout_create
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/refresh/:
+    post:
+      operationId: auth_refresh_create
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /custom_fields/:
+    get:
+      operationId: custom_fields_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - custom_fields
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomFieldList'
+          description: ''
+    post:
+      operationId: custom_fields_create
+      tags:
+      - custom_fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+  /custom_fields/{id}/:
+    get:
+      operationId: custom_fields_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: custom field을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - custom_fields
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+    put:
+      operationId: custom_fields_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: custom field을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - custom_fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+    patch:
+      operationId: custom_fields_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: custom field을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - custom_fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomField'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomField'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomField'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+    delete:
+      operationId: custom_fields_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: custom field을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - custom_fields
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /document_categories/:
+    get:
+      operationId: document_categories_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - document_categories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDocumentCategoryList'
+          description: ''
+    post:
+      operationId: document_categories_create
+      tags:
+      - document_categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DocumentCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentCategory'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCategory'
+          description: ''
+  /document_categories/{id}/:
+    get:
+      operationId: document_categories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: document category을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - document_categories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCategory'
+          description: ''
+    put:
+      operationId: document_categories_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: document category을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - document_categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DocumentCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentCategory'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCategory'
+          description: ''
+    patch:
+      operationId: document_categories_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: document category을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - document_categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumentCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumentCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumentCategory'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCategory'
+          description: ''
+    delete:
+      operationId: document_categories_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: document category을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - document_categories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /enumerations/time_entry_activities/:
+    get:
+      operationId: enumerations_time_entry_activities_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - enumerations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTimeEntryActivityList'
+          description: ''
+    post:
+      operationId: enumerations_time_entry_activities_create
+      tags:
+      - enumerations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeEntryActivity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TimeEntryActivity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TimeEntryActivity'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntryActivity'
+          description: ''
+  /enumerations/time_entry_activities/{id}/:
+    get:
+      operationId: enumerations_time_entry_activities_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Time Entry Activity을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - enumerations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntryActivity'
+          description: ''
+    put:
+      operationId: enumerations_time_entry_activities_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Time Entry Activity을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - enumerations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeEntryActivity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TimeEntryActivity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TimeEntryActivity'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntryActivity'
+          description: ''
+    patch:
+      operationId: enumerations_time_entry_activities_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Time Entry Activity을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - enumerations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTimeEntryActivity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTimeEntryActivity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTimeEntryActivity'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntryActivity'
+          description: ''
+    delete:
+      operationId: enumerations_time_entry_activities_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Time Entry Activity을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - enumerations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /issue_priorities/:
+    get:
+      operationId: issue_priorities_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - issue_priorities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIssuePriorityList'
+          description: ''
+    post:
+      operationId: issue_priorities_create
+      tags:
+      - issue_priorities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssuePriority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IssuePriority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IssuePriority'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssuePriority'
+          description: ''
+  /issue_priorities/{id}/:
+    get:
+      operationId: issue_priorities_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Priority을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_priorities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssuePriority'
+          description: ''
+    put:
+      operationId: issue_priorities_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Priority을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_priorities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssuePriority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IssuePriority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IssuePriority'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssuePriority'
+          description: ''
+    patch:
+      operationId: issue_priorities_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Priority을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_priorities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedIssuePriority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedIssuePriority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedIssuePriority'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssuePriority'
+          description: ''
+    delete:
+      operationId: issue_priorities_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Priority을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_priorities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /issue_statuses/:
+    get:
+      operationId: issue_statuses_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - issue_statuses
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIssueStatusList'
+          description: ''
+    post:
+      operationId: issue_statuses_create
+      tags:
+      - issue_statuses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IssueStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IssueStatus'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueStatus'
+          description: ''
+  /issue_statuses/{id}/:
+    get:
+      operationId: issue_statuses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Status을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_statuses
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueStatus'
+          description: ''
+    put:
+      operationId: issue_statuses_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Status을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_statuses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IssueStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IssueStatus'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueStatus'
+          description: ''
+    patch:
+      operationId: issue_statuses_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Status을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_statuses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedIssueStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedIssueStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedIssueStatus'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueStatus'
+          description: ''
+    delete:
+      operationId: issue_statuses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue Status을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issue_statuses
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /issues/:
+    get:
+      operationId: issues_list
+      parameters:
+      - in: query
+        name: assigned_to
+        schema:
+          type: integer
+      - in: query
+        name: author
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      - in: query
+        name: project
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          type: integer
+      - in: query
+        name: tracker
+        schema:
+          type: integer
+      tags:
+      - issues
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIssueList'
+          description: ''
+    post:
+      operationId: issues_create
+      tags:
+      - issues
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Issue'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+          description: ''
+  /issues/{id}/:
+    get:
+      operationId: issues_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issues
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+          description: ''
+    put:
+      operationId: issues_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issues
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Issue'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+          description: ''
+    patch:
+      operationId: issues_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issues
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedIssue'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedIssue'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedIssue'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+          description: ''
+    delete:
+      operationId: issues_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issues
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /issues/{id}/relations/:
+    get:
+      operationId: issues_relations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issues
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+          description: ''
+    post:
+      operationId: issues_relations_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Issue을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - issues
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Issue'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+          description: ''
+  /journals/:
+    get:
+      operationId: journals_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - journals
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedJournalList'
+          description: ''
+  /journals/{id}/:
+    get:
+      operationId: journals_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: journal을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - journals
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+          description: ''
+  /my/dashboard/:
+    get:
+      operationId: my_dashboard_retrieve
+      tags:
+      - my
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /projects/:
+    get:
+      operationId: projects_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProjectList'
+          description: ''
+    post:
+      operationId: projects_create
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+  /projects/{identifier}/:
+    get:
+      operationId: projects_retrieve
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    put:
+      operationId: projects_update
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    patch:
+      operationId: projects_partial_update
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProject'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    delete:
+      operationId: projects_destroy
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /projects/{identifier}/archive/:
+    post:
+      operationId: projects_archive_create
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+  /projects/{identifier}/memberships/:
+    get:
+      operationId: projects_memberships_retrieve
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+    post:
+      operationId: projects_memberships_create
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+  /projects/{identifier}/remove_member/:
+    post:
+      operationId: projects_remove_member_create
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+  /projects/{identifier}/unarchive/:
+    post:
+      operationId: projects_unarchive_create
+      parameters:
+      - in: path
+        name: identifier
+        schema:
+          type: string
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Project'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+  /reports/summary/:
+    get:
+      operationId: reports_summary_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /roles/:
+    get:
+      operationId: roles_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - roles
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRoleList'
+          description: ''
+    post:
+      operationId: roles_create
+      tags:
+      - roles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Role'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+  /roles/{id}/:
+    get:
+      operationId: roles_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Role을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - roles
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    put:
+      operationId: roles_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Role을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - roles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Role'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    patch:
+      operationId: roles_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Role을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - roles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    delete:
+      operationId: roles_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Role을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - roles
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /search/:
+    get:
+      operationId: search_retrieve
+      tags:
+      - search
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /settings/:
+    get:
+      operationId: settings_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - settings
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSettingList'
+          description: ''
+    post:
+      operationId: settings_create
+      tags:
+      - settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Setting'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Setting'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Setting'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Setting'
+          description: ''
+  /settings/{name}/:
+    get:
+      operationId: settings_retrieve
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: setting을 식별하는 고유한 값.
+        required: true
+      tags:
+      - settings
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Setting'
+          description: ''
+    put:
+      operationId: settings_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: setting을 식별하는 고유한 값.
+        required: true
+      tags:
+      - settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Setting'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Setting'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Setting'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Setting'
+          description: ''
+    patch:
+      operationId: settings_partial_update
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: setting을 식별하는 고유한 값.
+        required: true
+      tags:
+      - settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSetting'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSetting'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSetting'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Setting'
+          description: ''
+    delete:
+      operationId: settings_destroy
+      parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+        description: setting을 식별하는 고유한 값.
+        required: true
+      tags:
+      - settings
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /time_entries/:
+    get:
+      operationId: time_entries_list
+      parameters:
+      - in: query
+        name: activity
+        schema:
+          type: integer
+      - in: query
+        name: issue
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      - in: query
+        name: project
+        schema:
+          type: integer
+      - in: query
+        name: spent_on
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: user
+        schema:
+          type: integer
+      tags:
+      - time_entries
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTimeEntryList'
+          description: ''
+    post:
+      operationId: time_entries_create
+      tags:
+      - time_entries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TimeEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TimeEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+          description: ''
+  /time_entries/{id}/:
+    get:
+      operationId: time_entries_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: time entry을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - time_entries
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+          description: ''
+    put:
+      operationId: time_entries_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: time entry을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - time_entries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TimeEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TimeEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+          description: ''
+    patch:
+      operationId: time_entries_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: time entry을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - time_entries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTimeEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTimeEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTimeEntry'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+          description: ''
+    delete:
+      operationId: time_entries_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: time entry을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - time_entries
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /time_entries/report/:
+    get:
+      operationId: time_entries_report_retrieve
+      tags:
+      - time_entries
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+          description: ''
+  /trackers/:
+    get:
+      operationId: trackers_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - trackers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTrackerList'
+          description: ''
+    post:
+      operationId: trackers_create
+      tags:
+      - trackers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tracker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tracker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tracker'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tracker'
+          description: ''
+  /trackers/{id}/:
+    get:
+      operationId: trackers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Tracker을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - trackers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tracker'
+          description: ''
+    put:
+      operationId: trackers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Tracker을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - trackers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tracker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tracker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tracker'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tracker'
+          description: ''
+    patch:
+      operationId: trackers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Tracker을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - trackers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTracker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTracker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTracker'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tracker'
+          description: ''
+    delete:
+      operationId: trackers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Tracker을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - trackers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /users/:
+    get:
+      operationId: users_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: users_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /users/{id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: User을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: User을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: User을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: User을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/{id}/lock/:
+    post:
+      operationId: users_lock_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: User을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /users/{id}/unlock/:
+    post:
+      operationId: users_unlock_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: User을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /wiki_pages/:
+    get:
+      operationId: wiki_pages_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWikiPageList'
+          description: ''
+    post:
+      operationId: wiki_pages_create
+      tags:
+      - wiki_pages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+  /wiki_pages/{id}/:
+    get:
+      operationId: wiki_pages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+    put:
+      operationId: wiki_pages_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+    patch:
+      operationId: wiki_pages_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWikiPage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWikiPage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWikiPage'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+    delete:
+      operationId: wiki_pages_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /wiki_pages/{id}/diff/:
+    get:
+      operationId: wiki_pages_diff_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+  /wiki_pages/{id}/history/:
+    get:
+      operationId: wiki_pages_history_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+  /wiki_pages/{id}/tree/:
+    get:
+      operationId: wiki_pages_tree_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: wiki page을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+  /wiki_pages/tree/:
+    get:
+      operationId: wiki_pages_tree_retrieve
+      tags:
+      - wiki_pages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+          description: ''
+  /workflows/:
+    get:
+      operationId: workflows_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: 페이지당 반환할 결과 수.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: 결과를 반환할 초기 인덱스.
+        schema:
+          type: integer
+      tags:
+      - workflows
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWorkflowTransitionList'
+          description: ''
+    post:
+      operationId: workflows_create
+      tags:
+      - workflows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowTransition'
+          description: ''
+  /workflows/{id}/:
+    get:
+      operationId: workflows_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: workflow transition을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - workflows
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowTransition'
+          description: ''
+    put:
+      operationId: workflows_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: workflow transition을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - workflows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowTransition'
+          description: ''
+    patch:
+      operationId: workflows_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: workflow transition을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - workflows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWorkflowTransition'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWorkflowTransition'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWorkflowTransition'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowTransition'
+          description: ''
+    delete:
+      operationId: workflows_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: workflow transition을 식별하는 고유한 정수 값.
+        required: true
+      tags:
+      - workflows
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /workflows/bulk_update/:
+    post:
+      operationId: workflows_bulk_update_create
+      tags:
+      - workflows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkflowTransition'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowTransition'
+          description: ''
+components:
+  schemas:
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        file:
+          type: string
+          format: uri
+        filename:
+          type: string
+          readOnly: true
+        filesize:
+          type: integer
+          readOnly: true
+        content_type:
+          type: string
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+        description:
+          type: string
+          maxLength: 255
+        container_type:
+          type: string
+          writeOnly: true
+        container_id:
+          type: integer
+          writeOnly: true
+      required:
+      - author
+      - content_type
+      - created_on
+      - file
+      - filename
+      - filesize
+      - id
+    AuditLog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        action:
+          type: string
+          maxLength: 255
+        details: {}
+        ip_address:
+          type: string
+          nullable: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          type: integer
+          nullable: true
+      required:
+      - action
+      - created_on
+      - id
+    CustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+        field_format:
+          type: string
+          maxLength: 30
+        regexp:
+          type: string
+          maxLength: 255
+        min_length:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        max_length:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        is_required:
+          type: boolean
+        default_value:
+          type: string
+        content_types:
+          type: array
+          items:
+            type: integer
+      required:
+      - content_types
+      - field_format
+      - id
+      - name
+    DocumentCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        is_default:
+          type: boolean
+        active:
+          type: boolean
+      required:
+      - id
+      - name
+    Issue:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project:
+          type: integer
+        tracker:
+          type: integer
+        status:
+          type: integer
+        priority:
+          type: integer
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+        assigned_to:
+          type: integer
+          nullable: true
+        subject:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        done_ratio:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        estimated_hours:
+          type: number
+          format: double
+          nullable: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        custom_fields:
+          type: object
+          additionalProperties: {}
+          writeOnly: true
+      required:
+      - author
+      - created_on
+      - id
+      - priority
+      - project
+      - status
+      - subject
+      - tracker
+      - updated_on
+    IssuePriority:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        is_default:
+          type: boolean
+        active:
+          type: boolean
+      required:
+      - id
+      - name
+    IssueStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        is_closed:
+          type: boolean
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - id
+      - name
+    IssuesVisibilityEnum:
+      enum:
+      - all
+      - own
+      type: string
+      description: |-
+        * `all` - All issues
+        * `own` - Own issues only
+    Journal:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalDetail'
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        notes:
+          type: string
+        user:
+          type: integer
+          nullable: true
+        content_type:
+          type: integer
+      required:
+      - content_type
+      - created_on
+      - details
+      - id
+      - object_id
+    JournalDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        property:
+          type: string
+          maxLength: 30
+        prop_key:
+          type: string
+          maxLength: 30
+        old_value:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+        journal:
+          type: integer
+      required:
+      - id
+      - journal
+      - prop_key
+      - property
+    PaginatedAttachmentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+    PaginatedAuditLogList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLog'
+    PaginatedCustomFieldList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomField'
+    PaginatedDocumentCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentCategory'
+    PaginatedIssueList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+    PaginatedIssuePriorityList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssuePriority'
+    PaginatedIssueStatusList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssueStatus'
+    PaginatedJournalList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Journal'
+    PaginatedProjectList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    PaginatedRoleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+    PaginatedSettingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Setting'
+    PaginatedTimeEntryActivityList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeEntryActivity'
+    PaginatedTimeEntryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeEntry'
+    PaginatedTrackerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tracker'
+    PaginatedUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PaginatedWikiPageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WikiPage'
+    PaginatedWorkflowTransitionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowTransition'
+    PatchedAttachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        file:
+          type: string
+          format: uri
+        filename:
+          type: string
+          readOnly: true
+        filesize:
+          type: integer
+          readOnly: true
+        content_type:
+          type: string
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+        description:
+          type: string
+          maxLength: 255
+        container_type:
+          type: string
+          writeOnly: true
+        container_id:
+          type: integer
+          writeOnly: true
+    PatchedCustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+        field_format:
+          type: string
+          maxLength: 30
+        regexp:
+          type: string
+          maxLength: 255
+        min_length:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        max_length:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        is_required:
+          type: boolean
+        default_value:
+          type: string
+        content_types:
+          type: array
+          items:
+            type: integer
+    PatchedDocumentCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        is_default:
+          type: boolean
+        active:
+          type: boolean
+    PatchedIssue:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project:
+          type: integer
+        tracker:
+          type: integer
+        status:
+          type: integer
+        priority:
+          type: integer
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+        assigned_to:
+          type: integer
+          nullable: true
+        subject:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        done_ratio:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        estimated_hours:
+          type: number
+          format: double
+          nullable: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        custom_fields:
+          type: object
+          additionalProperties: {}
+          writeOnly: true
+    PatchedIssuePriority:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        is_default:
+          type: boolean
+        active:
+          type: boolean
+    PatchedIssueStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        is_closed:
+          type: boolean
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+    PatchedProject:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        identifier:
+          type: string
+          pattern: ^[a-z0-9_\-]+$
+          maxLength: 255
+        description:
+          type: string
+        homepage:
+          type: string
+          format: uri
+          maxLength: 200
+        is_public:
+          type: boolean
+        parent:
+          type: integer
+          readOnly: true
+          nullable: true
+        parent_id:
+          type: integer
+          writeOnly: true
+          nullable: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        inherit_members:
+          type: boolean
+          writeOnly: true
+          default: false
+        enabled_modules:
+          type: array
+          items:
+            type: string
+          writeOnly: true
+        modules:
+          type: string
+          readOnly: true
+    PatchedRole:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionsEnum'
+        issues_visibility:
+          $ref: '#/components/schemas/IssuesVisibilityEnum'
+    PatchedSetting:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        value:
+          type: string
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTimeEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project:
+          type: integer
+        issue:
+          type: integer
+          nullable: true
+        user:
+          type: integer
+        hours:
+          type: number
+          format: double
+        spent_on:
+          type: string
+          format: date
+        activity:
+          type: integer
+          readOnly: true
+        activity_id:
+          type: integer
+          writeOnly: true
+        comments:
+          type: string
+          maxLength: 1024
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTimeEntryActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        is_default:
+          type: boolean
+        active:
+          type: boolean
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+    PatchedTracker:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        default_status:
+          type: integer
+          nullable: true
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: 사용자 이름
+          description: 150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: 이메일 주소
+          maxLength: 254
+        first_name:
+          type: string
+          title: 이름
+          maxLength: 150
+        last_name:
+          type: string
+          title: 성
+          maxLength: 150
+        is_active:
+          type: boolean
+          title: 활성
+          description: 이 사용자가 활성화되어 있는지를 나타냅니다. 계정을 삭제하는 대신 이것을 선택 해제하세요.
+        is_staff:
+          type: boolean
+          title: 스태프 권한
+          description: 사용자가 관리사이트에 로그인이 가능한지를 나타냅니다.
+        is_superuser:
+          type: boolean
+          title: 최상위 사용자 권한
+          description: 해당 사용자에게 모든 권한을 허가합니다.
+        password:
+          type: string
+          writeOnly: true
+        language:
+          type: string
+          maxLength: 10
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 등록일
+        last_login:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: 마지막 로그인
+    PatchedWikiPage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        wiki:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        parent:
+          type: integer
+          nullable: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        content:
+          allOf:
+          - $ref: '#/components/schemas/WikiContent'
+          readOnly: true
+        text:
+          type: string
+          writeOnly: true
+        comments:
+          type: string
+          writeOnly: true
+        version:
+          type: integer
+          writeOnly: true
+    PatchedWorkflowTransition:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tracker:
+          type: integer
+        role:
+          type: integer
+        old_status:
+          type: integer
+        new_status:
+          type: integer
+    PermissionsEnum:
+      enum:
+      - view_project
+      - create_project
+      - edit_project
+      - archive_project
+      - delete_project
+      - manage_members
+      - view_issues
+      - create_issue
+      - edit_issue
+      - delete_issue
+      - add_issue_notes
+      - view_wiki_pages
+      - edit_wiki_pages
+      - delete_wiki_pages
+      - log_time
+      - view_time_entries
+      - edit_time_entries
+      type: string
+      description: |-
+        * `view_project` - view_project
+        * `create_project` - create_project
+        * `edit_project` - edit_project
+        * `archive_project` - archive_project
+        * `delete_project` - delete_project
+        * `manage_members` - manage_members
+        * `view_issues` - view_issues
+        * `create_issue` - create_issue
+        * `edit_issue` - edit_issue
+        * `delete_issue` - delete_issue
+        * `add_issue_notes` - add_issue_notes
+        * `view_wiki_pages` - view_wiki_pages
+        * `edit_wiki_pages` - edit_wiki_pages
+        * `delete_wiki_pages` - delete_wiki_pages
+        * `log_time` - log_time
+        * `view_time_entries` - view_time_entries
+        * `edit_time_entries` - edit_time_entries
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        identifier:
+          type: string
+          pattern: ^[a-z0-9_\-]+$
+          maxLength: 255
+        description:
+          type: string
+        homepage:
+          type: string
+          format: uri
+          maxLength: 200
+        is_public:
+          type: boolean
+        parent:
+          type: integer
+          readOnly: true
+          nullable: true
+        parent_id:
+          type: integer
+          writeOnly: true
+          nullable: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        inherit_members:
+          type: boolean
+          writeOnly: true
+          default: false
+        enabled_modules:
+          type: array
+          items:
+            type: string
+          writeOnly: true
+        modules:
+          type: string
+          readOnly: true
+      required:
+      - created_on
+      - id
+      - identifier
+      - modules
+      - name
+      - parent
+      - status
+      - updated_on
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionsEnum'
+        issues_visibility:
+          $ref: '#/components/schemas/IssuesVisibilityEnum'
+      required:
+      - id
+      - name
+      - permissions
+    Setting:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        value:
+          type: string
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - name
+      - updated_on
+    StatusEnum:
+      enum:
+      - 1
+      - 5
+      - 9
+      type: integer
+      description: |-
+        * `1` - Active
+        * `5` - Closed
+        * `9` - Archived
+    TimeEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project:
+          type: integer
+        issue:
+          type: integer
+          nullable: true
+        user:
+          type: integer
+        hours:
+          type: number
+          format: double
+        spent_on:
+          type: string
+          format: date
+        activity:
+          type: integer
+          readOnly: true
+        activity_id:
+          type: integer
+          writeOnly: true
+        comments:
+          type: string
+          maxLength: 1024
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - activity
+      - created_on
+      - hours
+      - id
+      - project
+      - spent_on
+      - updated_on
+    TimeEntryActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        is_default:
+          type: boolean
+        active:
+          type: boolean
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - id
+      - name
+    Tracker:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        default_status:
+          type: integer
+          nullable: true
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - id
+      - name
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: 사용자 이름
+          description: 150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: 이메일 주소
+          maxLength: 254
+        first_name:
+          type: string
+          title: 이름
+          maxLength: 150
+        last_name:
+          type: string
+          title: 성
+          maxLength: 150
+        is_active:
+          type: boolean
+          title: 활성
+          description: 이 사용자가 활성화되어 있는지를 나타냅니다. 계정을 삭제하는 대신 이것을 선택 해제하세요.
+        is_staff:
+          type: boolean
+          title: 스태프 권한
+          description: 사용자가 관리사이트에 로그인이 가능한지를 나타냅니다.
+        is_superuser:
+          type: boolean
+          title: 최상위 사용자 권한
+          description: 해당 사용자에게 모든 권한을 허가합니다.
+        password:
+          type: string
+          writeOnly: true
+        language:
+          type: string
+          maxLength: 10
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 등록일
+        last_login:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: 마지막 로그인
+      required:
+      - date_joined
+      - id
+      - last_login
+      - password
+      - username
+    WikiContent:
+      type: object
+      properties:
+        text:
+          type: string
+        comments:
+          type: string
+          maxLength: 1024
+        version:
+          type: integer
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - author
+      - text
+      - updated_on
+      - version
+    WikiPage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        wiki:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        parent:
+          type: integer
+          nullable: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        content:
+          allOf:
+          - $ref: '#/components/schemas/WikiContent'
+          readOnly: true
+        text:
+          type: string
+          writeOnly: true
+        comments:
+          type: string
+          writeOnly: true
+        version:
+          type: integer
+          writeOnly: true
+      required:
+      - content
+      - created_on
+      - id
+      - title
+      - wiki
+    WorkflowTransition:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tracker:
+          type: integer
+        role:
+          type: integer
+        old_status:
+          type: integer
+        new_status:
+          type: integer
+      required:
+      - id
+      - new_status
+      - old_status
+      - role
+      - tracker
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
